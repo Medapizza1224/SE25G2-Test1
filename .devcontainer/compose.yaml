@@ -1,4 +1,21 @@
 services:
+  # Java開発環境 (Dev Container)
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      # プロジェクト全体をコンテナ内にマウント
+      - ../:/workspaces/project:cached
+    command: sleep infinity
+    # ネットワークを共有するためDBが見えるようになる
+    depends_on:
+      - db1
+      - db2
+      - db3
+    # VS Codeの設定と合わせる
+    user: vscode
+
   # Node 1 (Main)
   db1:
     image: mysql:8.0
