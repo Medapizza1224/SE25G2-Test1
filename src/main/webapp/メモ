@@ -22,3 +22,25 @@ mysql -h db3 -P 3306 -u root -proot restaurant_db -e "SELECT product_id, product
 git config --global user.email "b233105y@st.u-gakugei.ac.jp"
 git config --global user.name "Medashaun1224"
 
+
+mysql -h db1 -P 3306 -u root -proot restaurant_db -e "SELECT p.payment_completed_at AS 日時, u.user_name AS ユーザー, (SELECT SUM(price * quantity) FROM order_items WHERE order_id = p.order_id) AS 金額, p.earned_points AS 獲得P FROM payments p JOIN users u ON p.user_id = u.user_id ORDER BY p.payment_completed_at DESC;"
+
+mysql -h db2 -P 3306 -u root -proot restaurant_db -e "SELECT p.payment_completed_at AS 日時, u.user_name AS ユーザー, (SELECT SUM(price * quantity) FROM order_items WHERE order_id = p.order_id) AS 金額, p.earned_points AS 獲得P FROM payments p JOIN users u ON p.user_id = u.user_id ORDER BY p.payment_completed_at DESC;"
+
+mysql -h db3 -P 3306 -u root -proot restaurant_db -e "SELECT p.payment_completed_at AS 日時, u.user_name AS ユーザー, (SELECT SUM(price * quantity) FROM order_items WHERE order_id = p.order_id) AS 金額, p.earned_points AS 獲得P FROM payments p JOIN users u ON p.user_id = u.user_id ORDER BY p.payment_completed_at DESC;"
+
+
+mysql -h db1 -P 3306 -u root -proot restaurant_db -e "SELECT height, amount, LEFT(prev_hash, 10) as prev, LEFT(curr_hash, 10) as curr, created_at FROM ledger ORDER BY height ASC;"
+
+mysql -h db2 -P 3306 -u root -proot restaurant_db -e "SELECT height, amount, LEFT(prev_hash, 10) as prev, LEFT(curr_hash, 10) as curr, created_at FROM ledger ORDER BY height ASC;"
+
+mysql -h db3 -P 3306 -u root -proot restaurant_db -e "SELECT height, amount, LEFT(prev_hash, 10) as prev, LEFT(curr_hash, 10) as curr, created_at FROM ledger ORDER BY height ASC;"
+
+
+データベース数
+echo "--- DB1 ---" && \
+mysql -h db1 -P 3306 -u root -proot restaurant_db -N -e "SELECT COUNT(*) FROM ledger;" && \
+echo "--- DB2 ---" && \
+mysql -h db2 -P 3306 -u root -proot restaurant_db -N -e "SELECT COUNT(*) FROM ledger;" && \
+echo "--- DB3 ---" && \
+mysql -h db3 -P 3306 -u root -proot restaurant_db -N -e "SELECT COUNT(*) FROM ledger;"
